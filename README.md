@@ -69,9 +69,9 @@ Com isso, temos o suficiente para começar o trabalho
 cd ~/ns-3.45
 cd ~/netanim/build/bin
 
-
 PROBLEMAS
 
-- sem VS Code bom
-- sem GDB
-- sem scripts para automatizar tudo
+- sem VS Code bom => add a extensao do C/C++ la
+- sem GDB => ./ns3 run "scratch/lab1_p1.cc --gdb nPackets=2 --nClients=3"
+- sem scripts para automatizar tudo => com dois terminais e os comandos acima funciona ok
+- sem git => manualmente copia a pasta scratch para ca e vai comitando
