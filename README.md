@@ -69,7 +69,13 @@ Com isso, temos o suficiente para começar o trabalho
 cd ~/ns-3.45
 cd ~/netanim/build/bin
 
-PROBLEMAS
+# prox passos
+
+- deixar a parte 1 igual ao first.cc, remover codigos importados
+- add a parte 1 no relatorio
+- fazer as partes 2 e 3
+
+# PROBLEMAS
 
 - sem VS Code bom => add a extensao do C/C++ la
 - sem GDB => ./ns3 run "scratch/lab1_p1.cc --gdb nPackets=2 --nClients=3"

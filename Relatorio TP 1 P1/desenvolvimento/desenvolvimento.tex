@@ -1,7 +1,87 @@
 
 \chapter{Ambiente de Desenvolvimento}
 
+O projeto é desenvolvido em um notebook Lenovo com processador Intel-Core i5
+de 11º geração, com arquitetura x64. A frequência do processador é 2.4 GHz e possui 4 cores. 
+O processador possui 8 GB de memória RAM disponível.
+O sistema operacional do computador é Windows 11, mas o ambiente NS-3 é instalado 
+através de WSL (Windows Subsystem for Linux) Ubuntu 22.04.1 LTS.
+
+O ambiente NS-3 é instalado na pasta \verb|home| do WSL.
+A Figura \ref{fig:ambiente-dev} ilustra o ambiente de desenvolvimento 
+utilizado no projeto.
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Ambiente de desenvolvimento.}
+	\includegraphics[width=\textwidth]{images/ambiente-dev.png}
+	\label{fig:ambiente-dev}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+Essencialmente, é adotado um procedimento de duas etapas:
+
+\begin{enumerate}
+    \item O comando \verb|./ns3 build|, seguido de \verb|./ns3 run| com o programa 
+    e argumentos de linha de comando desejados, é usado para executar o script C++ 
+    com as funções do NS-3. A saída dos comandos será um arquivo XML;
+    \item O comando \verb|./netanim| é usado para visualizar o arquivo XML exportado na etapa 1, obtendo a animação 
+    exibida no lado direito da Figura \ref{fig:ambiente-dev}.
+\end{enumerate}
+
 \chapter{Parte 1: Comunicação Ponto-a-Ponto}
+
+Para a parte 1, o objetivo é estabelecer conexões ponto-a-ponto entre clientes 
+e um servidor. Usando \verb|nPackets = 2| e \verb|nClients = 3| nos argumentos 
+da linha de comando, é obtido a topologia exibida 
+na Figura \ref{fig:topologia-p1}.
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Topologia do experimento da parte 1.}
+	\includegraphics[width=0.8\textwidth]{images/topologia-p1.png}
+	\label{fig:topologia-p1}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+A Figura \ref{fig:resultado-p1} mostra os envios dos pacotes dos nós 
+clientes para o nó servidor ao longo do tempo, com três clientes e cada um enviando 
+dois pacotes.
+ 
+\begin{figure}[htb]
+	\centering 
+    \caption{Resultado do experimento da parte 1.}
+	\includegraphics[width=0.8\textwidth]{images/resultado-p1.png}
+	\label{fig:resultado-p1}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+É possível observar que o tempo de propagação é muito menor do que o tempo de espera 
+para envio dos pacotes. O tempo de RTT é de 3.69 ms, enquanto 1 segundo é esperado para 
+enviar cada pacote. Em cada envio, o cliente envia para o nós 3 (servidor), e o servidor 
+responde de volta para o nó cliente (0 a 2) que o requisitou.
+
+Para tornar o gráfico mais didático, é possível aumentar o tempo de propagação
+para 200 ms e reduzir a largura de banda para 5 kbps, 
+obtendo o resultado da Figura \ref{fig:resultado-p1-mod}.
+Vemos que o pacote gaasta mais tempo para sair do cliente e chegar ao servidor, e 
+que o servidor demora 1.88 segundos a enviar a resposta ao cliente. 
+Um dos fatores que contribuem para esse tempo é exibido abaixo:
+
+\[ T_{prop} + \frac{banda}{tamanho} =  0.2 + \frac{5 \cdot 10^3 \un{kpbs}}{1024 \cdot 8} = 0.81  \un{s}\]
+
+\noindent uma vez que o pacote enviado tem 1024 bytes de tamanho.
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Resultado do experimento da parte 1 - tempo de propagação 200 ms e largura de banda 5 kbps.}
+	\includegraphics[width=0.8\textwidth]{images/resultado-p1-mod.png}
+	\label{fig:resultado-p1-mod}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+Na pasta compactada no Moodle, está presente um teste com 5 clientes e cada um 
+enviando 4 pacotes, bem como o print com as linhas de comando e arquivo txt.
 
 \chapter{Parte 2: Rede Ethernet}
 
