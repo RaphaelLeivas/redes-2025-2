@@ -6,6 +6,11 @@
 #include "ns3/network-module.h"
 #include "ns3/point-to-point-module.h"
 
+// para o plot
+#include "ns3/ipv4-header.h"
+#include "ns3/packet.h"
+#include "ns3/udp-header.h"
+
 #define MAX_PACKETS 20
 #define SERVER_PORT 9
 
@@ -13,9 +18,35 @@ using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("HybridNetworkExample");
 
+// funções específicas para o plot
+std::map<uint32_t, double> sendTimes; // packetId → send time
+std::vector<double> delays;           // measured end-to-end delays
+
+void
+TxTrace(Ptr<const Packet> packet)
+{
+    uint32_t id = packet->GetUid();
+    sendTimes[id] = Simulator::Now().GetSeconds();
+}
+
+void
+RxTrace(Ptr<const Packet> packet)
+{
+    uint32_t id = packet->GetUid();
+    double rxTime = Simulator::Now().GetSeconds();
+    if (sendTimes.find(id) != sendTimes.end())
+    {
+        double delay = rxTime - sendTimes[id];
+        delays.push_back(delay);
+    }
+}
+
 int
 main(int argc, char* argv[])
 {
+    LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);
+    LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
+    
     CommandLine cmd;
 
     uint32_t nPackets = 1;
@@ -26,7 +57,8 @@ main(int argc, char* argv[])
 
     cmd.Parse(argc, argv);
 
-    if (nPackets > MAX_PACKETS) {
+    if (nPackets > MAX_PACKETS)
+    {
         nPackets = MAX_PACKETS;
     }
 
@@ -36,7 +68,7 @@ main(int argc, char* argv[])
 
     NodeContainer csmaNodes;
     csmaNodes.Add(first_p2p_nodes.Get(1)); // n1 faz parte dos CSMA
-    csmaNodes.Create(nCsma); // add os outros CSMA do nCsma
+    csmaNodes.Create(nCsma);               // add os outros CSMA do nCsma
 
     NodeContainer second_p2p_nodes;
     second_p2p_nodes.Add(csmaNodes.Get(csmaNodes.GetN() - 1)); // ultimo no CSMA
@@ -51,18 +83,21 @@ main(int argc, char* argv[])
     first_p2p.SetDeviceAttribute("DataRate", StringValue("5Mbps"));
     first_p2p.SetChannelAttribute("Delay", StringValue("2ms"));
     NetDeviceContainer first_p2p_net = first_p2p.Install(first_p2p_nodes);
+    first_p2p.EnablePcapAll("first_p2p_net-trace");
 
     // sequencia de nós CSMA
     CsmaHelper csma;
     csma.SetChannelAttribute("DataRate", StringValue("100Mbps"));
     csma.SetChannelAttribute("Delay", StringValue("1ms"));
     NetDeviceContainer csmaDevices = csma.Install(csmaNodes);
+    csma.EnablePcapAll("csma-trace");
 
     // segundo ponto a ponto entre o ultimo CSMA e o servidor final
     PointToPointHelper second_p2p;
     second_p2p.SetDeviceAttribute("DataRate", StringValue("5Mbps"));
     second_p2p.SetChannelAttribute("Delay", StringValue("2ms"));
     NetDeviceContainer second_p2p_net = second_p2p.Install(second_p2p_nodes);
+    second_p2p.EnablePcapAll("csma-trace");
 
     // endereço IP
     Ipv4AddressHelper address;
@@ -110,9 +145,24 @@ main(int argc, char* argv[])
     // Posiciona o servidor final em y = 10 ao final
     anim.SetConstantPosition(second_p2p_nodes.Get(1), 20.0 + 10.0 * (nCsma + 1), 10.0);
 
+    // para o plot
+    Config::ConnectWithoutContext("/NodeList/*/ApplicationList/*/$ns3::UdpEchoClient/Rx",
+                                  MakeCallback(&RxTrace));
+    Config::ConnectWithoutContext("/NodeList/*/ApplicationList/*/$ns3::UdpEchoClient/Tx",
+                                  MakeCallback(&TxTrace));
+
     //  roda o simulador
     Simulator::Stop(Seconds(11.0));
     Simulator::Run();
+
+    // salva no txt
+    std::ofstream out("delays_modified_topology.txt");
+    for (size_t i = 0; i < delays.size(); ++i)
+    {
+        out << i + 1 << " " << delays[i] << std::endl;
+    }
+    out.close();
+
     Simulator::Destroy();
 
     return 0;

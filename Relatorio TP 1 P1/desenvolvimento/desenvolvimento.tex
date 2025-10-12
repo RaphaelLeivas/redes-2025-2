@@ -100,8 +100,59 @@ os pacotes enviados simultaneamente por vários nós no mesmo meio.
 	\fonte{Elaboração própria.}
 \end{figure}
 
-Utilizando 4 nós CSMA intermediários enviando 10 pacotes, o gráfico do atraso 
-de ponto-a-ponto de uma requisição versus o número do pacote está exibido na Figura.  
+Utilizando 4 nós CSMA intermediários enviando 10 pacotes, a sequência de envio 
+dos pacotes em função do tempo está exibida na Figura \ref{fig:pacotes-p2}.
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Envio dos pacotes na toopologia da parte 2.}
+	\includegraphics[width=0.8\textwidth]{images/pacotes-p2.png}
+	\label{fig:pacotes-p2}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+O gráfico do atraso 
+de ponto-a-ponto de uma requisição versus o número do pacote está exibido na Figura.
+\ref{fig:plot-atraso-p2}. A topologia original é a presente no exemplo \verb|second.cc|
+da documentação do NS-3, enquanto a topologia modificada é a exibida na Figura 
+\ref{fig:topologia-p2} desenvolvida na parte 2. O gráfico foi obtido a partir do  
+seguinte procedimento:
+
+\begin{itemize}
+	\item Modifica os códigos para que eles salvem os atrasos em um arquivo txt 
+	com as funções prontas de \verb|TxTrace| e \verb|RxTrace|;
+	\item Carrega os arquivos txt em um arquivo Python e faz os plots com a biblioteca 
+	\verb|matplotlib|.
+\end{itemize}
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Atraso ponto-a-ponto em função do número do pacote para cada uma das topologias.}
+	\includegraphics[width=0.8\textwidth]{images/plot-atraso-p2.png}
+	\label{fig:plot-atraso-p2}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+É possível observar que o atraso na topologia original 
+é menor do que na modificada. Isso é conforme esperado, uma vez que a 
+topologia modificada possui um nó a mais, que aumenta o tempo de propagação.
+O fato de o aumento no atraso ser constante ao longo dos pacotes reforça essa 
+hipótese.
+
+Além disso, o atraso do primeiro pacote é maior do que os demais. Analisando 
+os arquivos PCAP gerados para ambas topoligas, vemos que isso é causado pelo 
+tempo de inicilização necessário para estabelecer a conexão, como a criação do socket UDP 
+e conexão com a porta do servidor. A Figura \ref{fig:atraso-pcap} 
+ilustra esse efeito nos arquivos PCAP. Temos um atraso de 0.0349 segundos no 
+primeiro pacote, e 0.0169 segundos nos demais.
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Atraso do primeiro pacote nos arquivos PCAP.}
+	\includegraphics[width=\textwidth]{images/atraso-pcap.png}
+	\label{fig:atraso-pcap}
+	\fonte{Elaboração própria.}
+\end{figure}
 
 
 \chapter{Parte 3: Rede WiFi}
