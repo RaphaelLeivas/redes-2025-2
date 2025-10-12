@@ -58,19 +58,20 @@ dois pacotes.
 
 É possível observar que o tempo de propagação é muito menor do que o tempo de espera 
 para envio dos pacotes. O tempo de RTT é de 3.69 ms, enquanto 1 segundo é esperado para 
-enviar cada pacote. Em cada envio, o cliente envia para o nós 3 (servidor), e o servidor 
+enviar cada pacote. Em cada envio, o cliente envia para o nó 3 (servidor), e o servidor 
 responde de volta para o nó cliente (0 a 2) que o requisitou.
 
 Para tornar o gráfico mais didático, é possível aumentar o tempo de propagação
 para 200 ms e reduzir a largura de banda para 5 kbps, 
 obtendo o resultado da Figura \ref{fig:resultado-p1-mod}.
-Vemos que o pacote gaasta mais tempo para sair do cliente e chegar ao servidor, e 
+Vemos que o pacote gasta mais tempo para sair do cliente e chegar ao servidor, e 
 que o servidor demora 1.88 segundos a enviar a resposta ao cliente. 
-Um dos fatores que contribuem para esse tempo é exibido abaixo:
+Esse valor de atraso é dado pela expressão que vimos em sala de aula:
 
-\[ T_{prop} + \frac{banda}{tamanho} =  0.2 + \frac{5 \cdot 10^3 \un{kpbs}}{1024 \cdot 8} = 0.81  \un{s}\]
+\[ T_{prop} + \frac{tamanho}{banda} =  0.2 + \frac{1024 \cdot 8 \un{bits}}{5 \cdot 10^3 \un{kpbs}} = 1.83  \un{s}\]
 
-\noindent uma vez que o pacote enviado tem 1024 bytes de tamanho.
+\noindent uma vez que o pacote enviado tem 1024 bytes de tamanho. Vemos que os valores 
+calculado e teórico são condizentes.
 
 \begin{figure}[htb]
 	\centering 
@@ -85,10 +86,10 @@ enviando 4 pacotes, bem como o print com as linhas de comando e arquivo txt.
 
 \chapter{Parte 2: Rede Ethernet}
 
-A topologia implementada nesse relatório está exibida na Figura 
+A topologia implementada na parte 2 está exibida na Figura 
 \ref{fig:topologia-p2}. Basicamente, o nó 0 quer se comunicar
 com o servidor (nó 6). Para isso, ele usa 4 nós CSMA intermediários 
-que enviam a requisição ao servidor final. Nós CSMA utilizam o protocolo 
+que enviam a requisição ao servidor final, representando o meio Ethernet. Nós CSMA utilizam o protocolo 
 Carrier-Sense Multiple-Access (CSMA) que reduz o risco de colisões entre 
 os pacotes enviados simultaneamente por vários nós no mesmo meio.
 
@@ -105,29 +106,29 @@ dos pacotes em função do tempo está exibida na Figura \ref{fig:pacotes-p2}.
 
 \begin{figure}[htb]
 	\centering 
-    \caption{Envio dos pacotes na toopologia da parte 2.}
+    \caption{Envio dos pacotes na topologia da parte 2.}
 	\includegraphics[width=0.8\textwidth]{images/pacotes-p2.png}
 	\label{fig:pacotes-p2}
 	\fonte{Elaboração própria.}
 \end{figure}
 
 O gráfico do atraso 
-de ponto-a-ponto de uma requisição versus o número do pacote está exibido na Figura
+de fim-a-fim de uma requisição versus o número do pacote está exibido na Figura
 \ref{fig:plot-atraso-p2}. A topologia original é a presente no exemplo \verb|second.cc|
 da documentação do NS-3, enquanto a topologia modificada é a exibida na Figura 
 \ref{fig:topologia-p2} desenvolvida na parte 2. O gráfico foi obtido a partir do  
 seguinte procedimento:
 
-\begin{itemize}
+\begin{enumerate}
 	\item Modifica os códigos para que eles salvem os atrasos em um arquivo txt 
 	com as funções prontas de \verb|TxTrace| e \verb|RxTrace|;
 	\item Carrega os arquivos txt em um arquivo Python e faz os plots com a biblioteca 
 	\verb|matplotlib|.
-\end{itemize}
+\end{enumerate}
 
 \begin{figure}[htb]
 	\centering 
-    \caption{Atraso ponto-a-ponto em função do número do pacote para cada uma das topologias.}
+    \caption{Atraso fim-a-fim em função do número do pacote para cada uma das topologias.}
 	\includegraphics[width=0.8\textwidth]{images/plot-atraso-p2.png}
 	\label{fig:plot-atraso-p2}
 	\fonte{Elaboração própria.}
@@ -140,8 +141,8 @@ O fato de o aumento no atraso ser constante ao longo dos pacotes reforça essa
 hipótese.
 
 Além disso, o atraso do primeiro pacote é maior do que os demais. Analisando 
-os arquivos PCAP gerados para ambas topoligas, vemos que isso é causado pelo 
-tempo de inicilização necessário para estabelecer a conexão, como a criação do socket UDP 
+os arquivos PCAP gerados para ambas topologias, vemos que isso é causado pelo 
+tempo de inicialização necessário para estabelecer a conexão, como a criação do socket UDP 
 e conexão com a porta do servidor. A Figura \ref{fig:atraso-pcap} 
 ilustra esse efeito nos arquivos PCAP. Temos um atraso de 0.0349 segundos no 
 primeiro pacote, e 0.0169 segundos nos demais.
@@ -159,7 +160,7 @@ primeiro pacote, e 0.0169 segundos nos demais.
 
 A topologia usada na parte 3 está exibida na Figura \ref{fig:topologia-p3}.
 Temos dois pontos de acesso (AP) de duas redes Wi-Fi, de modo que os nós 
-de cada rede podem comunicar entre si usandos esses APs.
+de cada rede podem comunicar entre si usando esses APs.
 
 \begin{figure}[htb]
 	\centering 
@@ -190,7 +191,7 @@ atrasos de envio de pacotes e montar o gráfico da Figura \ref{fig:atraso-p3}.
 
 Comparado com os atrasos em nós CSMA na rede Ethernet na Figura \ref{fig:plot-atraso-p2},
 verificamos um comportamento similar: o envio do primeiro pacote é mais demorado devido à criação 
-de sockets UDP e estabelecimento da conexão. Em seguinda, os demais pacotes tem 
+de sockets UDP e estabelecimento da conexão. Em seguida, os demais pacotes tem 
 delay menor com a conexão já estabelecida. 
 
 As diferenças entre os tempos de delay observados são causadas pela diferença entre os meios
@@ -201,8 +202,32 @@ usa o meio sem fio com ondas eletromagnéticas.
 
 \chapter{Conclusão}
 
+Na parte 1, foi possível simular os tempos de transmissão e propagação 
+que vimos em sala de aula. Em particular, verificamos como os gráficos 
+temporais que mostram os tempos 
+de envio e recebimento dos pacotes em forma de barras verticais veriam em 
+função do atraso de propagação, largura de banda e tamanho do pacote. Já sabíamos 
+que essa dependência existia devido à equação teórica, mas com o NS-3 
+foi possível simular isso numericamente com a ferramenta.
 
-Texto conclusivo com a descrição do que você aprendeu e reforçou do conhecimento visto em sala de aula
+Também foi possível na parte 1 usar uma das equações que vimos em sala de aula e comparar 
+o valor teórico com o valor simulado, sendo ambos bastante semelhantes.
+
+Na parte 2, aprendemos sobre o papel que nós CSMA desempenham em redes 
+cabeadas por Ethernet, evitando colisões ao enviar pacotes ao menos tempo.
+Além disso, em sala de aula havíamos visto apenas do ponto de vista teórico as ações 
+iniciais que a rede realiza ao estabelecer uma conexão (criar sockets, conectar-se à porta).
+Com o NS-3, vimos como isso afeta o atraso fim-a-fim do primeiro pacote, 
+estabilizando-se nos pacotes seguintes. 
+
+Por fim, na parte 3 vimos como a mudança no meio de propagação de Ethernet 
+para Wi-Fi afeta os atrasos nos envios de pacotes. Vimos também como todos 
+os nós de uma rede usam o ponto de acesso (AP) da rede para comunicar-se com outra,
+algo que havíamos visto apenas do ponto de vista teórico em sala de aula, 
+sendo possível verificar isso na prática com o NS-3.
+
+
+
 
 
 
