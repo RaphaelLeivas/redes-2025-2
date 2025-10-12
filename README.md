@@ -69,6 +69,13 @@ Com isso, temos o suficiente para começar o trabalho
 cd ~/ns-3.45
 cd ~/netanim/build/bin
 
+
+
+./ns3 run "scratch/lab1_p2.cc --nCsma=2 --verbose=1"
+./ns3 run "scratch/lab1_p2.cc --nCsma=2 --nPackets=2"
+./ns3 run "scratch/lab1_p2_alt.cc --nCsma=2 --nPackets=2"
+./ns3 run "scratch/lab1_p2_alt.cc"
+
 # prox passos
 
 - deixar a parte 1 igual ao first.cc, remover codigos importados
@@ -78,6 +85,6 @@ cd ~/netanim/build/bin
 # PROBLEMAS
 
 - sem VS Code bom => add a extensao do C/C++ la
-- sem GDB => ./ns3 run "scratch/lab1_p1.cc --gdb nPackets=2 --nClients=3"
+- sem GDB => ./ns3 run "scratch/lab1_p1.cc --gdb --nPackets=2 --nClients=3"
 - sem scripts para automatizar tudo => com dois terminais e os comandos acima funciona ok
 - sem git => manualmente copia a pasta scratch para ca e vai comitando

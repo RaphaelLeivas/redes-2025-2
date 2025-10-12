@@ -85,6 +85,25 @@ enviando 4 pacotes, bem como o print com as linhas de comando e arquivo txt.
 
 \chapter{Parte 2: Rede Ethernet}
 
+A topologia implementada nesse relatório está exibida na Figura 
+\ref{fig:topologia-p2}. Basicamente, o nó 0 quer se comunicar
+com o servidor (nó 6). Para isso, ele usa 4 nós CSMA intermediários 
+que enviam a requisição ao servidor final. Nós CSMA utilizam o protocolo 
+Carrier-Sense Multiple-Access (CSMA) que reduz o risco de colisões entre 
+os pacotes enviados simultaneamente por vários nós no mesmo meio.
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Topologia da parte 2.}
+	\includegraphics[width=0.8\textwidth]{images/topologia-p2.png}
+	\label{fig:topologia-p2}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+Utilizando 4 nós CSMA intermediários enviando 10 pacotes, o gráfico do atraso 
+de ponto-a-ponto de uma requisição versus o número do pacote está exibido na Figura.  
+
+
 \chapter{Parte 3: Rede WiFi}
 
 \chapter{Conclusão}
