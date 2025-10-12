@@ -106,6 +106,7 @@ cd ~/netanim/build/bin
 ./ns3 run "scratch/lab1_p2_alt.cc --nCsma=2 --nPackets=2"
 ./ns3 run "scratch/lab1_p2_alt.cc"
 ./ns3 run "scratch/second.cc"
+./ns3 run "scratch/lab1_p3.cc"
 
 # prox passos
 
