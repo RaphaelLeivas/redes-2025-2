@@ -109,6 +109,8 @@ cd ~/netanim/build/bin
 ./ns3 run "scratch/second.cc"
 ./ns3 run "scratch/lab1_p3.cc"
 
+./ns3 run "scratch/lab2_p1.cc --dataRate="1Mbps" --delay="20ms" --errorRate=0.00001 --nFlows=3" --gdb
+
 # prox passos
 
 - deixar a parte 1 igual ao first.cc, remover codigos importados
@@ -118,6 +120,9 @@ cd ~/netanim/build/bin
 # PROBLEMAS
 
 - sem VS Code bom => add a extensao do C/C++ la
-- sem GDB => ./ns3 run "scratch/lab1_p1.cc --gdb --nPackets=2 --nClients=3"
+- sem GDB => 
+    ./ns3 configure --build-profile=debug
+    ./ns3 build
+    ./ns3 run "scratch/lab1_p1.cc --gdb --nPackets=2 --nClients=3"
 - sem scripts para automatizar tudo => com dois terminais e os comandos acima funciona ok
 - sem git => manualmente copia a pasta scratch para ca e vai comitando

@@ -1,0 +1,55 @@
+
+\chapter{Ambiente de Desenvolvimento}
+
+O projeto é desenvolvido em um notebook Lenovo com processador Intel-Core i5
+de 11º geração, com arquitetura x64. A frequência do processador é 2.4 GHz e possui 4 cores. 
+O processador possui 8 GB de memória RAM disponível.
+O sistema operacional do computador é Windows 11, mas o ambiente NS-3 é instalado 
+através de WSL (Windows Subsystem for Linux) Ubuntu 22.04.1 LTS.
+
+O ambiente NS-3 é instalado na pasta \verb|home| do WSL.
+A Figura \ref{fig:ambiente-dev} ilustra o ambiente de desenvolvimento 
+utilizado no projeto.
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Ambiente de desenvolvimento.}
+	\includegraphics[width=\textwidth]{images/ambiente-dev.png}
+	\label{fig:ambiente-dev}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+Essencialmente, é adotado um procedimento de duas etapas:
+
+\begin{enumerate}
+    \item O comando \verb|./ns3 build|, seguido de \verb|./ns3 run| com o programa 
+    e argumentos de linha de comando desejados, é usado para executar o script C++ 
+    com as funções do NS-3. A saída dos comandos será um arquivo XML;
+    \item O comando \verb|./netanim| é usado para visualizar o arquivo XML exportado na etapa 1, obtendo a animação 
+    exibida no lado direito da Figura \ref{fig:ambiente-dev}.
+\end{enumerate}
+
+\chapter{Parte 1: Topologia com Gargalo}
+
+O primeiro passo é obter uma topologia em que há um link de gargalo 
+entre os nós que estão se comunicando. A Figura \ref{fig:topologia-lab2-p1} (a)
+mostra a topologia e os tempos de envio e recepção de um pacote (b) e (c). 
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Ambiente de desenvolvimento.}
+	\includegraphics[width=\textwidth]{images/topologia-lab2-p1.png}
+	\label{fig:topologia-lab2-p1}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+Na topologia, os links entre os nós 0 - 1 e 2 - 3 possuem largura de banda de 100 Mbps. O link entre 1 - 2 representa
+o gargalo, com apenas 1Mbps de banda. Isso se reflete nas Figuras \ref{fig:topologia-lab2-p1} (b) e (c), nas quais os pacotes 
+gastam poucos microsegundos para realizar a transmissão entre os nós 0 - 1 e 2 - 3, e mais de 200 milissegundos 
+entre os nós de gargalo da rede. 
+
+\section{Janela de Congestionamento}
+
+
+
+
