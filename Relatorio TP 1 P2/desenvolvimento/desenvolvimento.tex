@@ -37,7 +37,7 @@ mostra a topologia e os tempos de envio e recepção de um pacote (b) e (c).
 
 \begin{figure}[htb]
 	\centering 
-    \caption{Ambiente de desenvolvimento.}
+    \caption{Topologia base e resultados iniciais da parte 1.}
 	\includegraphics[width=\textwidth]{images/topologia-lab2-p1.png}
 	\label{fig:topologia-lab2-p1}
 	\fonte{Elaboração própria.}
@@ -50,6 +50,18 @@ entre os nós de gargalo da rede.
 
 \section{Janela de Congestionamento}
 
+A ação da janela de congestionamento, quando aplicamos um Bulksend com 5 fluxos simultaneamente pode ser vista na 
+Figura \ref{resultado-lab2-p1}. Vemos que quando o gargalo tem banda de 1 Mbps, o Goodput (taxa de dados 
+que efetivamente são transmitidos entre o recipiente e o destinatário na rede) fica na ordem de 0.1 a 0.2 Mbps. 
+Quando aumentamos a banda do gargalo para 10 Mbps, eles se estabiliza em 1 a 2 Mbps, cerca de 10\% do total do gargalo.
+Essas variações nos valores do Goodput refletem as variações na janela de congestionamento do TCP.
 
+\begin{figure}[htb]
+	\centering 
+    \caption{Ação da janela de congestionamento na topologia com o Bulksend.}
+	\includegraphics[width=\textwidth]{images/resultado-lab2-p1.png}
+	\label{fig:resultado-lab2-p1}
+	\fonte{Elaboração própria.}
+\end{figure}
 
-
+\section{Parte 1a: Comparação entre o TCP CUBIC e o NewReno}

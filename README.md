@@ -110,6 +110,7 @@ cd ~/netanim/build/bin
 ./ns3 run "scratch/lab1_p3.cc"
 
 ./ns3 run "scratch/lab2_p1.cc --dataRate="1Mbps" --delay="20ms" --errorRate=0.00001 --nFlows=3" --gdb
+./ns3 run "scratch/lab2_p2.cc --dataRate="1Mbps" --delay="20ms" --errorRate=0.00001 --nFlows=3" --gdb
 
 # prox passos
 
