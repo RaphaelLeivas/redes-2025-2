@@ -1,1 +1,4 @@
 matplotlib==3.8.1
+pandas
+ipykernel
+numpy

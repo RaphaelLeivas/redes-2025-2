@@ -65,3 +65,68 @@ Essas variações nos valores do Goodput refletem as variações na janela de co
 \end{figure}
 
 \section{Parte 1a: Comparação entre o TCP CUBIC e o NewReno}
+
+
+\chapter{Parte 2: Topologia com Gargalo + Fluxos Heterogêneos}
+
+A topologia usada nesse exercício está exibida na Figura \ref{fig:topologia-lab2-p2}. 
+O nó 0 (remetente) deseja enviar vários pacotes para os nós 3 e 4 (destinatários). 
+Entre os nós 1 e 2, há um gargalo com banda 1 Mbps e 20 ms de delay. A banda 
+das demais conexões é 100 ms com delay 0.01 ms, exceto o ramo entre os nós 2 e 3 que possui 
+delay consideravelmente maior de 50 ms.
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Topologia da parte 2.}
+	\includegraphics[width=\textwidth]{images/topologia-lab2-p2.png}
+	\label{fig:topologia-lab2-p2}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+Note na Figura \ref{fig:topologia-lab2-p2} que os pacotes vão se acumulando no gargalo.
+O objetivo é verificar no experimento como isso afeta a transmissão de dados de entre o remetente 
+e os destinatários, inclusive para diferentes algoritmos de controle de congestionamento.
+Para isso, será adotado o seguinte procedimento: 
+
+\begin{enumerate}
+	\item Calcula o goodput (taxa de dados efetivamente enviada) dos nós 3 e 4; 
+	\item Repete 10 vezes e toma a média;
+	\item Repete para os algoritmos TCP New Reno e TCP CUBIC;
+	\item Faz isso para o número de fluxos de 2, 4, 6 e 8.
+	\item Exporta tudo em csv e plota gráficos com os dados coletados em python com a
+	ferramenta \verb|matplotlib|.
+\end{enumerate}
+
+Calculando o goodput na topologia da Figura \ref{fig:topologia-lab2-p2} com 4 fluxos, obtemos 
+os resultados da Figura \ref{fig:result-goodput-lab2p2}. Vemos que o servidor B (nó 4) 
+recebe menos dados devido ao maior delay no seu ramo; contudo, devido ao congestionamento 
+no ramo central, ele acaba recebendo uma quantidade de dados não muito menor que o nó 3, 
+que possui um delay mais de 100 vezes menor. 
+
+Além disso, note que a banda de ambos os ramos é 100 Mbps. No entanto, com o 
+gargalo de 1 Mbps entre o remente e o destinatário, a banda efetivamente usada é menos que 1\% disso. 
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Goodput calculados na topologia da parte 2.}
+	\includegraphics[width=\textwidth]{images/result-goodput-lab2p2.png}
+	\label{fig:result-goodput-lab2p2}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+Repetindo esse experimento 10 vezes, obtemos a distribuição de Goodput calculados para cada 
+destinatário exibido na Figura \ref{fig:goodput-hist-lab2p2}. Calculando a média de cada um, obtemos 
+
+\[ \mu_A = 0.23 \un{Mbps} \quad , \quad \mu_B = 0.17 \un{Mbps} \]
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Histograma do goodput obtido por servidor executando 10 vezes.}
+	\includegraphics[width=\textwidth]{images/goodput-hist-lab2p2.png}
+	\label{fig:goodput-hist-lab2p2}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+O próximo passo é comparar o goodput médio obtido entre cada servidor para diferentes 
+algoritmos de congestionamento. O resultado obtido pode ser visto na Figura 
+
