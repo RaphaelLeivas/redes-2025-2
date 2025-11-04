@@ -112,6 +112,8 @@ cd ~/netanim/build/bin
 ./ns3 run "scratch/lab2_p1.cc --dataRate="1Mbps" --delay="20ms" --errorRate=0.00001 --nFlows=3" --gdb
 ./ns3 run "scratch/lab2_p2.cc --dataRate="1Mbps" --delay="20ms" --errorRate=0.00001 --nFlows=3" --gdb
 
+./ns3 run "scratch/bulksend_test.cc --nFlows=5 --simTime=10"
+
 # prox passos
 
 - deixar a parte 1 igual ao first.cc, remover codigos importados
