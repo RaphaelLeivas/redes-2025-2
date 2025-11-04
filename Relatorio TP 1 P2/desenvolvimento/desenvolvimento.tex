@@ -128,5 +128,43 @@ destinatário exibido na Figura \ref{fig:goodput-hist-lab2p2}. Calculando a méd
 \end{figure}
 
 O próximo passo é comparar o goodput médio obtido entre cada servidor para diferentes 
-algoritmos de congestionamento. O resultado obtido pode ser visto na Figura 
+algoritmos de congestionamento, para diferentes números de fluxos.
+O resultado obtido pode ser visto na Figura \ref{fig:result-lab2p2}.
 
+\begin{figure}[htb]
+	\centering 
+    \caption{Diferença de Goodput (Mbps) entre servidores para os diferentes algoritmos.}
+	\includegraphics[width=\textwidth]{images/result-lab2p2.png}
+	\label{fig:result-lab2p2}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+Analisando as curvas, podemos chegar às seguintes conclusões:
+
+\begin{itemize}
+	\item Ambos algoritmos de congestionamento apresentam Goodput similar entre os mesmos 
+	servidores;
+	\item O servidor B, em ambos protocolos, apresenta menor Goodput devido ao fato de possuir maior 
+	delay que o servidor A; 
+	\item Quanto maior o número de fluxos menor o Goodput em todos os casos. Isso ocorre devido ao 
+	aumento do congestionamento no ramo de gargalo , reduzindo a quantidade de pacotes que conseguem 
+	chegar aos destinatários.
+\end{itemize}
+
+Um outra conclusão que podemos tomar a partir do gráfico se refere à como ambos algoritmos tentam ser 
+"justos" (fairness) com ambos servidores, tentando fazer com que ambos tenham o mesmo RTT mesmo que o delay 
+dos ramos sejam consideravelmente diferente. Para isso, podemos tomar a diferença entre
+os Goodputs dos servidores para cada algoritmo e plotar o resultado, exibido na 
+Figura \ref{fig:diff-goodputs-lab2p2}.
+
+\begin{figure}[htb]
+	\centering 
+    \caption{Histograma do goodput obtido por servidor executando 10 vezes.}
+	\includegraphics[width=\textwidth]{images/diff-goodputs-lab2p2.png}
+	\label{fig:diff-goodputs-lab2p2}
+	\fonte{Elaboração própria.}
+\end{figure}
+
+Em média, o New Reno apresenta diferença de 0.06 Mbps, enquanto o CUBIC apresenta diferença média 
+de 0.1 Mbps. Assim, concluímos que o New Reno é mais justo que o TCP CUBIC, por apresentar menor diferença entre os 
+Goodputs de cada servidor.
