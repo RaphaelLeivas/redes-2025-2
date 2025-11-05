@@ -33,39 +33,42 @@ Essencialmente, é adotado um procedimento de duas etapas:
 
 O primeiro passo é obter uma topologia em que há um link de gargalo 
 entre os nós que estão se comunicando. A Figura \ref{fig:topologia-lab2-p1} (a)
-mostra a topologia e os tempos de envio e recepção de um pacote (b) e (c). 
+mostra a topologia e os tempos de envio e recepção dos pacotes (b). 
 
 \begin{figure}[htb]
 	\centering 
-    \caption{Topologia base e resultados iniciais da parte 1.}
+    \caption{(a) Topologia base da parte 1 e (b) envio de pacotes.}
 	\includegraphics[width=\textwidth]{images/topologia-lab2-p1.png}
 	\label{fig:topologia-lab2-p1}
 	\fonte{Elaboração própria.}
 \end{figure}
 
 Na topologia, os links entre os nós 0 - 1 e 2 - 3 possuem largura de banda de 100 Mbps. O link entre 1 - 2 representa
-o gargalo, com apenas 1Mbps de banda. Isso se reflete nas Figuras \ref{fig:topologia-lab2-p1} (b) e (c), nas quais os pacotes 
-gastam poucos microsegundos para realizar a transmissão entre os nós 0 - 1 e 2 - 3, e mais de 200 milissegundos 
-entre os nós de gargalo da rede. 
+o gargalo, com apenas 1Mbps de banda. Isso se reflete na Figura \ref{fig:topologia-lab2-p1} (a), com um grande número 
+de pacotes acumulado nesse ramo. Além disso, na Figura \ref{fig:topologia-lab2-p1} (b) vemos que
+os pacotes rapidamente trafegam entre os nós 0 - 1 e 2 - 3, mas gastam muito mais 
+tempo no ramo 1 -2, que representa o gargalo.
+
+A Figura \ref{fig:topologia-lab2-p1} (b) mostra também o primeiro comando de ACK do protocolo TCP 
+enviado, seguido de rajada de pacotes enviada pelo \verb|BulkSend| configurado no NS-3.
 
 \section{Janela de Congestionamento}
 
-A ação da janela de congestionamento, quando aplicamos um Bulksend com 5 fluxos simultaneamente pode ser vista na 
-Figura \ref{resultado-lab2-p1}. Vemos que quando o gargalo tem banda de 1 Mbps, o Goodput (taxa de dados 
-que efetivamente são transmitidos entre o recipiente e o destinatário na rede) fica na ordem de 0.1 a 0.2 Mbps. 
-Quando aumentamos a banda do gargalo para 10 Mbps, eles se estabiliza em 1 a 2 Mbps, cerca de 10\% do total do gargalo.
-Essas variações nos valores do Goodput refletem as variações na janela de congestionamento do TCP.
+Para avançar na parte 1, é necessário extrair os valores das janelas de congestionamento para realizar as análises na simulação. 
+Isso pode ser feito de duas formas:
 
-\begin{figure}[htb]
-	\centering 
-    \caption{Ação da janela de congestionamento na topologia com o Bulksend.}
-	\includegraphics[width=\textwidth]{images/resultado-lab2-p1.png}
-	\label{fig:resultado-lab2-p1}
-	\fonte{Elaboração própria.}
-\end{figure}
+\begin{itemize}
+	\item Usar o procedimento de \verb|fifth.cc|, com o método \verb|TraceConnectWithoutContext| que recebe um callback 
+	e nesse callback podemos chamar uma função de log; 
+	\item Usar o procedimento de \verb|tcp-variants-comparison.cc|, que conecta ao socket do nó a partir do método 
+	\verb|Config::Connect|.
+\end{itemize}
 
-\section{Parte 1a: Comparação entre o TCP CUBIC e o NewReno}
+Executando ambos arquivos acima sem modificações, eles conseguem extrair os valores da janela de congestionamento. No entanto,
+ao adaptar o código desses arquivos para a nova topologia, não foi possível extrair esses valores. Ou nada era printado, ou 
+erros de referenciamento de ponteiro como \verb| <Signals.SIGABRT: 6>| aconteciam. Tentei solucionar, sem sucesso. 
 
+Como a parte dois não precisa da janela de congestionamento, vamos avançar para ela nesse momento.
 
 \chapter{Parte 2: Topologia com Gargalo + Fluxos Heterogêneos}
 
@@ -168,3 +171,17 @@ Figura \ref{fig:diff-goodputs-lab2p2}.
 Em média, o New Reno apresenta diferença de 0.06 Mbps, enquanto o CUBIC apresenta diferença média 
 de 0.1 Mbps. Assim, concluímos que o New Reno é mais justo que o TCP CUBIC, por apresentar menor diferença entre os 
 Goodputs de cada servidor.
+
+
+\chapter{Conclusão}
+
+Tendo em vista os objetivos do exercício, foi possível verificar experimentalmente 
+o impacto que gargalos têm na taxa de transmissão global da rede. Além disso, 
+algoritmos de controle de congestionamento que havíamos somente visto em sala de aula 
+de forma teórica ficaram mais claros, verificando também experimentalmente as diferenças 
+entre eles.
+
+Dificuldades encontradas com a extração da janela de congestionamento não 
+permitiram aprender muito com o item 1 do exercício. Contudo, dado que na primeira 
+parte do TP 1 usamos apenas UDP, foi interessante ver os pacotes TCP na Figura 
+\ref{fig:topologia-lab2-p1} (b), em particular o ACK.

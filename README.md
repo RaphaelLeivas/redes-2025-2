@@ -114,6 +114,11 @@ cd ~/netanim/build/bin
 
 ./ns3 run "scratch/bulksend_test.cc --nFlows=5 --simTime=10"
 
+./ns3 run scratch/myfifth.cc
+
+./ns3 run "scratch/tcpvc_test.cc --tracing=true --prefix_name="tcpvc_test""
+
+
 # prox passos
 
 - deixar a parte 1 igual ao first.cc, remover codigos importados

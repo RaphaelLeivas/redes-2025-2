@@ -13,7 +13,7 @@ using namespace ns3;
 int
 main(int argc, char* argv[])
 {
-    int number_of_experiments = 10; 
+    int number_of_experiments = 80; 
     std::ofstream file("experiment_lab2p2.csv");
 
     if (!file.is_open()) {
@@ -22,10 +22,39 @@ main(int argc, char* argv[])
     }
 
     // Write header
-    file << "exp,media_sa,media_sb\n";
+    file << "exp,nflows,alg,media_sa,media_sb\n";
+
+    std::string current_alg = "ns3::TcpCubic";
+    uint32_t current_nFlows = 2;
 
     for (int k = 0; k < number_of_experiments; ++k) {
         RngSeedManager::SetSeed(time(NULL));
+
+        if (k < 10) {
+            current_alg = "ns3::TcpCubic";
+            current_nFlows = 2;
+        } else if (k >= 10 && k < 20) {
+            current_alg = "ns3::TcpNewReno";
+            current_nFlows = 2;
+        } else if (k >= 20 && k < 30) {
+            current_alg = "ns3::TcpCubic";
+            current_nFlows = 4;
+        } else if (k >= 30 && k < 40) {
+            current_alg = "ns3::TcpNewReno";
+            current_nFlows = 4;
+        } else if (k >= 40 && k < 50) {
+            current_alg = "ns3::TcpCubic";
+            current_nFlows = 6;
+        } else if (k >= 50 && k < 60) {
+            current_alg = "ns3::TcpNewReno";
+            current_nFlows = 6;
+        } else if (k >= 60 && k < 70) {
+            current_alg = "ns3::TcpCubic";
+            current_nFlows = 8;
+        } else if (k >= 70 && k < 80) {
+            current_alg = "ns3::TcpNewReno";
+            current_nFlows = 8;
+        }
 
         LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);
         LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
@@ -50,7 +79,8 @@ main(int argc, char* argv[])
             nFlows = MAX_FLOWS;
         }
 
-        Config::SetDefault("ns3::TcpL4Protocol::SocketType", StringValue(transport_prot));
+        Config::SetDefault("ns3::TcpL4Protocol::SocketType", StringValue(current_alg));
+        nFlows = current_nFlows;
 
         NodeContainer nodes;
         nodes.Create(N_NODES); // 0: dest, 1: bottleneck1 b1,  2: bottleneck1 b2, 3: Servidor A, 4: Servidor B
@@ -171,7 +201,7 @@ main(int argc, char* argv[])
         Simulator::Stop(Seconds(simTime));
         Simulator::Run();
 
-        std::cout << "----- Calcula o Goodput -----" << std::endl;
+        std::cout << "k = " << k << std::endl;
 
         double gpA_media = 0;
         double gpB_media = 0;
@@ -194,7 +224,7 @@ main(int argc, char* argv[])
             //         << std::endl;
         }
 
-        file << k << "," << gpA_media << "," << gpB_media << "\n";
+        file << k << "," << nFlows << "," << current_alg << "," << gpA_media << "," << gpB_media << "\n";
 
         Simulator::Destroy();
     }
