@@ -31,6 +31,9 @@ Essencialmente, é adotado um procedimento de duas etapas:
 
 \chapter{Parte 1: Topologia com Gargalo}
 
+Todo o código usado nessa parte pode ser visto no seguinte link: 
+\url{https://github.com/RaphaelLeivas/redes-2025-2/blob/main/scratch/lab2_p1.cc}.
+
 O primeiro passo é obter uma topologia em que há um link de gargalo 
 entre os nós que estão se comunicando. A Figura \ref{fig:topologia-lab2-p1} (a)
 mostra a topologia e os tempos de envio e recepção dos pacotes (b). 
@@ -71,6 +74,9 @@ erros de referenciamento de ponteiro como \verb| <Signals.SIGABRT: 6>| acontecia
 Como a parte dois não precisa da janela de congestionamento, vamos avançar para ela nesse momento.
 
 \chapter{Parte 2: Topologia com Gargalo + Fluxos Heterogêneos}
+
+Todo o código usado nessa parte pode ser visto no seguinte link: 
+\url{https://github.com/RaphaelLeivas/redes-2025-2/blob/main/scratch/lab2_p2.cc}.
 
 A topologia usada nesse exercício está exibida na Figura \ref{fig:topologia-lab2-p2}. 
 O nó 0 (remetente) deseja enviar vários pacotes para os nós 3 e 4 (destinatários). 
@@ -162,7 +168,7 @@ Figura \ref{fig:diff-goodputs-lab2p2}.
 
 \begin{figure}[htb]
 	\centering 
-    \caption{Histograma do goodput obtido por servidor executando 10 vezes.}
+    \caption{Diferença entre o goodput de cada servidor para diferentes algoritmos.}
 	\includegraphics[width=\textwidth]{images/diff-goodputs-lab2p2.png}
 	\label{fig:diff-goodputs-lab2p2}
 	\fonte{Elaboração própria.}
